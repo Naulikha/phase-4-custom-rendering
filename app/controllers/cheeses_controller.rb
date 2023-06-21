@@ -9,7 +9,11 @@ class CheesesController < ApplicationController
   # GET /cheeses/:id
   def show
     cheese = Cheese.find_by(id: params[:id])
-    render json: cheese
+    if cheese
+    render json: cheese, expect: [:created_at, :updated_at], methods: [:summary]
+    else
+      render json: {error: 'Cheese not Found'}, status: :not_found
+    end
   end
 
 end
